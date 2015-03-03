@@ -8,7 +8,7 @@
 
 #import "LoginViewController.h"
 #import "TwitterClient.h"
-#import "TweetViewController.h"
+#import "MainViewController.h"
 
 
 @interface LoginViewController ()
@@ -23,7 +23,7 @@
     [[TwitterClient sharedInstance] loginWithCompletion:^(User *user, NSError *error) {
         if (user != nil) {
             //Modally Present tweets view
-            TweetViewController *vc = [[TweetViewController alloc] init];
+            MainViewController *vc = [[MainViewController alloc] init];
             UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
             [self presentViewController:nvc animated:YES completion:nil];
         } else {

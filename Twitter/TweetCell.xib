@@ -97,6 +97,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="favoriteButton" destination="VQ2-9p-jjf" id="rKf-To-NTk"/>
+                <outlet property="replyButton" destination="3ui-vt-hJn" id="dYn-wi-DZx"/>
                 <outlet property="retweetButton" destination="KZb-L9-KCr" id="cU6-wH-ojK"/>
                 <outlet property="tweetText" destination="8s2-ae-N1C" id="3D2-iw-qyh"/>
                 <outlet property="tweetTime" destination="R88-Zq-fIT" id="V4d-P4-gDB"/>

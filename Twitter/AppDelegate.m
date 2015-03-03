@@ -12,6 +12,7 @@
 #import "User.h"
 #import "Tweet.h"
 #import "TweetViewController.h"
+#import "MainViewController.h"
 
 @interface AppDelegate ()
 
@@ -32,9 +33,10 @@
     if (user != nil) {
         NSLog(@"welcome %@", user.name);
         
-        TweetViewController *vc = [[TweetViewController alloc] init];
+        MainViewController *vc = [[MainViewController alloc] init];
         UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
         self.window.rootViewController = nvc;
+        NSLog(@"got to end of appdelegate");
     } else {
         NSLog(@"not logged in");
         

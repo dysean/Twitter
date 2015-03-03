@@ -13,8 +13,9 @@
 #import "TweetCell.h"
 #import "SingleTweetViewController.h"
 #import "composerViewController.h"
+#import "ProfileViewController.h"
 
-@interface TweetViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface TweetViewController () <UITableViewDataSource, UITableViewDelegate, TweetCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tweetView;
 @property (nonatomic, strong) NSArray *tweetArray;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -30,15 +31,13 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
     cell.tweet = self.tweetArray[indexPath.row];
-    NSLog(@"tweet cell: %@",self.tweetArray[indexPath.row]);
-    NSLog(@"tweet array: %@",self.tweetArray);
+    cell.delegate = self;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"didSelect");
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    [self.tweetView reloadData];
     SingleTweetViewController *controller = [[SingleTweetViewController alloc] init];
     controller.tweet = self.tweetArray[indexPath.row];
     
@@ -53,6 +52,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.title = @"Twitter";
     // Do any additional setup after loading the view from its nib.
     self.tweetView.delegate = self;
     self.tweetView.dataSource = self;
@@ -61,15 +62,11 @@
     self.tweetView.rowHeight = UITableViewAutomaticDimension;
     self.tweetView.estimatedRowHeight = 200;
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onLogout)];
-    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"New" style:UIBarButtonItemStylePlain target:self action:@selector(newTweet)];
     
     [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
-//        NSLog(@"%@",[Tweet tweetsWithArray:tweets]);
         self.tweetArray = tweets;
         [self.tweetView reloadData];
-        NSLog(@"data reloaded, tweetarray: %@", tweets);
     }];
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(onRefresh) forControlEvents:UIControlEventValueChanged];
@@ -90,10 +87,8 @@
     [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
         self.tweetArray = tweets;
         [self.tweetView reloadData];
-        NSLog(@"data reloaded, tweetarray: %@", tweets);
+        NSLog(@"%@", self.tweetArray);
     }];
-
-    NSLog((@"refreshing"));
     [self.refreshControl endRefreshing];
 }
 
@@ -102,7 +97,23 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
+#pragma mark - Tweet Cell Delegate
+
+- (void)tweetcell:(TweetCell *)tweetcell pressButton:(NSString *)button {
+    if ([button  isEqual:@"reply"]) {
+        composerViewController *vc = [[composerViewController alloc] init];
+        User *user = [User currentUser];
+        vc.user = user;
+        vc.tweet = tweetcell.tweet;
+        [self.navigationController pushViewController:vc animated:YES];
+    } else if ([button isEqual:@"profileImg"]) {
+        NSLog(@"tap");
+        ProfileViewController *vc = [[ProfileViewController alloc] init];
+        vc.tweet = tweetcell.tweet;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -110,6 +121,6 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
+
 
 @end

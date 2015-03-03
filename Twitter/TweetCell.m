@@ -14,7 +14,7 @@
 
 
 
-@interface TweetCell() <TweetDelegate>
+@interface TweetCell() <TweetCellDelegate, UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *userName;
 @property (weak, nonatomic) IBOutlet UILabel *userHandle;
 @property (weak, nonatomic) IBOutlet UILabel *tweetText;
@@ -22,16 +22,17 @@
 @property (weak, nonatomic) IBOutlet UIImageView *userImage;
 @property (weak, nonatomic) IBOutlet UIButton *retweetButton;
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet UIButton *replyButton;
+
 @end
 
 @implementation TweetCell
+
+- (void)tweetcell:(TweetCell *)tweetcell pressButton:(NSString *)button{
+}
+
 - (IBAction)onReply:(id)sender {
-    composerViewController *vc = [[composerViewController alloc] init];
-    User *user = [User currentUser];
-    vc.user = user;
-    vc.tweet = self.tweet;
-    //don't know how to get access to navigationviewcontroller
-    
+    [self.delegate tweetcell:self pressButton:@"reply"];
 }
 - (IBAction)onFavorite:(id)sender {
     [self.tweet favorite];
@@ -42,6 +43,10 @@
     self.favoriteButton.selected = self.tweet.favorited;
 }
 
+- (void)imgTap {
+    [self.delegate tweetcell:self pressButton:@"profileImg"];
+}
+
 - (void)awakeFromNib {
     // Initialization code
     //some command for estimated size for textbox??
@@ -49,6 +54,13 @@
     [self.retweetButton setImage:[UIImage imageNamed:@"retweet_on.png"] forState:UIControlStateSelected];
     [self.favoriteButton setImage:[UIImage imageNamed:@"favorite.png"] forState:UIControlStateNormal];
     [self.favoriteButton setImage:[UIImage imageNamed:@"favorite_on.png"] forState:UIControlStateSelected];
+    
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgTap)];
+    [tap setNumberOfTouchesRequired:1];
+    [tap setNumberOfTapsRequired:1];
+    [self.userImage addGestureRecognizer:tap];
+    [self.userImage setUserInteractionEnabled:YES];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -61,8 +73,6 @@
     _tweet = tweet;
     self.userName.text = tweet.user.name;
     self.userHandle.text = [NSString stringWithFormat:@"@%@",tweet.user.screenname];
-    NSLog(@"tweet user object: %@",tweet.user);
-    NSLog(@"tweet user url: %@",tweet.user.profileImageUrl);
     self.tweetText.text = tweet.text;
     [self.userImage setImageWithURL:[NSURL URLWithString:tweet.user.profileImageUrl]];
     self.tweetTime.text = tweet.createdAtWithFormat;

@@ -104,7 +104,6 @@
         
         
     }
-    NSLog(@"returning tweets: %@", tweets);
     return tweets;
 }
 

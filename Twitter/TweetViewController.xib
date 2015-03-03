@@ -22,10 +22,10 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="Qrf-9Y-LrM" secondAttribute="trailing" id="BuH-zL-gfD"/>
-                <constraint firstItem="Qrf-9Y-LrM" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="qzT-sx-qZj"/>
-                <constraint firstItem="Qrf-9Y-LrM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="wdp-a1-agb"/>
-                <constraint firstAttribute="bottom" secondItem="Qrf-9Y-LrM" secondAttribute="bottom" id="yOZ-XP-W1W"/>
+                <constraint firstItem="Qrf-9Y-LrM" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="BSF-cV-Rhu"/>
+                <constraint firstAttribute="trailing" secondItem="Qrf-9Y-LrM" secondAttribute="trailing" id="RD3-Sp-R3x"/>
+                <constraint firstAttribute="bottom" secondItem="Qrf-9Y-LrM" secondAttribute="bottom" id="VNY-ac-acr"/>
+                <constraint firstItem="Qrf-9Y-LrM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="qqO-Ga-17N"/>
             </constraints>
             <point key="canvasLocation" x="383" y="291"/>
         </view>

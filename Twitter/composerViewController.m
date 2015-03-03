@@ -28,6 +28,7 @@
     [super viewDidLoad];
     [self setUser:self.user];
     [self setTweet:self.tweet];
+    self.title = @"Compose Tweet";
     
     if(self.tweet) {
         //Reply
